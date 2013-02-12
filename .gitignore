@@ -1,0 +1,8 @@
+/.idea/*
+/draft/*
+/node_modules/
+/tmp/
+*.bat
+.DS_Store
+._*
+milkpack.sublime*
