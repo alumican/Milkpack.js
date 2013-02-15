@@ -6,21 +6,25 @@
  http://www.opensource.org/licenses/mit-license.php
 ###
 
-class SceneStatus extends Event
+jpp.util.Scope.temp () ->
 
-	#===============================================
-	#
-	# Event Type
-	#
-	#===============================================
+	jpp.util.Namespace('jpp.event').use()
 
-	@HELLO : 'hello'
-	@ARRIVE: 'arrive'
-	@STAY  : 'stay'
-	@LEAVE : 'leave'
-	@BYE   : 'bye'
-	@GONE  : 'gone'
+	class SceneStatus extends jpp.event.Event
+
+		#===============================================
+		#
+		# Event Type
+		#
+		#===============================================
+
+		@HELLO : 'hello'
+		@ARRIVE: 'arrive'
+		@STAY  : 'stay'
+		@LEAVE : 'leave'
+		@BYE   : 'bye'
+		@GONE  : 'gone'
 
 
-#export
-Namespace('jpp.milkpack').register('SceneStatus', SceneStatus)
+	#export
+	jpp.util.Namespace('jpp.milkpack').register('SceneStatus', SceneStatus)

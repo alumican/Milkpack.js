@@ -6,20 +6,24 @@
  http://www.opensource.org/licenses/mit-license.php
 ###
 
-class MilkpackEvent extends Event
+jpp.util.Scope.temp () ->
 
-	#===============================================
-	#
-	# Event Type
-	#
-	#===============================================
+	jpp.util.Namespace('jpp.event').use()
 
-	#最初のシーンが認識されたときに発行される
-	@INIT: 'init'
+	class MilkpackEvent extends jpp.event.Event
 
-	#シーンが切り替わったときに発行される
-	@CHANGE: 'change'
+		#===============================================
+		#
+		# Event Type
+		#
+		#===============================================
+
+		#最初のシーンが認識されたときに発行される
+		@INIT: 'init'
+
+		#シーンが切り替わったときに発行される
+		@CHANGE: 'change'
 
 
-#export
-Namespace('jpp.milkpack').register('MilkpackEvent', MilkpackEvent)
+	#export
+	jpp.util.Namespace('jpp.milkpack').register('MilkpackEvent', MilkpackEvent)

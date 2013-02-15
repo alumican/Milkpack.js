@@ -7,12 +7,12 @@ module.exports = (grunt) ->
 		concat:
 			milkpack:
 				src: [
-					'src/Milkpack.coffee'
-					'src/MilkpackEvent.coffee'
-					'src/Scene.coffee'
-					'src/SceneEvent.coffee'
-					'src/SceneStatus.coffee'
 					'src/Util.coffee'
+					'src/SceneStatus.coffee'
+					'src/SceneEvent.coffee'
+					'src/Scene.coffee'
+					'src/MilkpackEvent.coffee'
+					'src/Milkpack.coffee'
 				]
 				dest: 'tmp/milkpack-concat.coffee'
 
@@ -22,12 +22,9 @@ module.exports = (grunt) ->
 					'lib/milkpack.js': 'tmp/milkpack-concat.coffee'
 			example:
 				files:
-					'example/official/script/main.js': 'example/official/coffee/main.coffee'
-			kazitori:
-				files:
-					'example/official/script/kazitori.js': 'example/official/coffee/kazitori.coffee'
-				options:
-					bare: true
+					'example/official-site/script/main.js': 'example/official-site/script/main.coffee'
+					'example/dev-test/script/main.js': 'example/dev-test/script/main.coffee'
+					'example/createjs-pushstate/script/main.js': 'example/createjs-pushstate/script/main.coffee'
 
 		min:
 			milkpack:
@@ -36,15 +33,55 @@ module.exports = (grunt) ->
 				dest:
 					'lib/milkpack.min.js'
 
+		copy:
+			official_site:
+				files: [
+					src: ['lib/milkpack.js']
+					dest: 'example/official-site/script/milkpack/milkpack.js'
+				]
+
+			dev_test:
+				files: [
+					src: ['lib/milkpack.js']
+					dest: 'example/dev-test/script/milkpack/milkpack.js'
+				]
+
+			createjs_pushstate:
+				files: [
+					src: ['lib/milkpack.js']
+					dest: 'example/createjs-pushstate/script/milkpack/milkpack.js'
+				]
+
 		#========================================
-		# WATCH
+		# STYLE
 		#========================================
 		less:
-			example:
+			official_site:
 				src:
-					'example/official/less/main.less'
+					'example/official-site/style/main.less'
 				dest:
-					'example/official/style/main.css'
+					'example/official-site/style/main.css'
+
+			dev_test:
+				src:
+					'example/dev-test/style/main.less'
+				dest:
+					'example/dev-test/style/main.css'
+
+			createjs_pushstate:
+				src:
+					'example/createjs-pushstate/style/main.less'
+				dest:
+					'example/createjs-pushstate/style/main.css'
+
+		#========================================
+		# CLEAN
+		#========================================
+		clean:
+			tmp: [
+				'tmp/',
+				'grunt.js'
+			]
 
 		#========================================
 		# WATCH
@@ -53,20 +90,15 @@ module.exports = (grunt) ->
 			script:
 				files: [
 					'src/**/*.coffee'
-					'example/official/coffee/*.coffee'
+					'example/**/*.coffee'
 				]
 				tasks:
-					#['default', 'r']
 					'default'
 			style:
 				files:
-					'example/official/less/*.less'
+					'example/**/*.less'
 				tasks:
-					#['default', 'r']
 					'default'
-			#html:
-			#	files: 'example/official/index.html'
-			#	tasks: 'r'
 
 	#========================================
 	# PLUGIN
@@ -76,6 +108,6 @@ module.exports = (grunt) ->
 	#========================================
 	# TASK
 	#========================================
-	grunt.registerTask 'default', 'concat coffee min less'
+	grunt.registerTask 'default', 'concat coffee min less copy clean'
 	grunt.registerTask "r", "reload Google Chrome (OS X)", () -> require("child_process").exec 'osascript -e \'tell application \"Google Chrome\" to tell the active tab of its first window to reload\''
 	grunt.registerTask 'w', 'watch'

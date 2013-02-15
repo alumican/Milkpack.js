@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Milkpack JS</title>
+
+		<!-- <link href='http://fonts.googleapis.com/css?family=Schoolbell' rel='stylesheet' type='text/css'> -->
+		<!-- <link href='http://fonts.googleapis.com/css?family=Rambla' rel='stylesheet' type='text/css'> -->
+
+		<!-- style -->
+		<link rel="stylesheet" type="text/css" href="/style/reset/reset.css" />
+		<link rel="stylesheet" type="text/css" href="/style/main.css" />
+
+		<!-- script -->
+		<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+		<![endif]-->
+
+		<script type="text/javascript" src="/script/jppcorelib/jppcorelib.js"></script>
+		<script type="text/javascript">
+			jpp.util.require(
+				'/script/jquery/jquery.js',
+				'/script/jquery/jquery.easing.1.3.js',
+				'/script/kazitori/kazitori.js',
+				'/script/milkpack/milkpack.js',
+				'/script/main.js'
+			)
+		</script>
+
+	</head>
+	<body>
+
+		<!-- github ribbon -->
+		<div id="github_ribbon">
+			<a href="https://github.com/alumican/jppcorelib.js"><img width="149" height="149" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+		</div>
+
+		<!-- milkdrop -->
+		<!--
+		<div id="milkdrop">
+			<img width="230" height="120" src="/image/milk.gif" />
+		</div>
+		-->
+
+		<div id="wrapper">
+
+			<!-- header -->
+			<header id="header">
+				<h1><a class="fragment" href="/">Milkpack JS</a></h1>
+				<nav>
+					<ul class=".clearfix">
+						<li><a class="fragment" href="/what"><img width="120" height="120" src="/image/milkpack_icon.gif" /><p>What</p></a></li>
+						<li><a class="fragment" href="/how"><img width="120" height="120" src="/image/milkpack_icon.gif" /><p>How</p></a></li>
+						<li><a class="fragment" href="/where"><img width="120" height="120" src="/image/milkpack_icon.gif" /><p>Where</p></a></li>
+						<li><a class="fragment" href="/who"><img width="120" height="120" src="/image/milkpack_icon.gif" /><p>Who</p></a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<!-- page container -->
+			<div id="page_container">
+
+				<!-- page:what -->
+				<section id="page_what" class="page">
+					<h2 class="title">What is Milkpack</h2>
+					<div class="content">
+						<p>Milkpack is simple javaScript framework that realize pageing with push-state.</p>
+					</div>
+				</section>
+
+				<!-- page:how -->
+				<section id="page_how" class="page">
+					<h2 class="title">How to use</h2>
+					<div class="content">
+						<p>Milkpack use Kazitori.</p>
+					</div>
+				</section>
+
+				<!-- page:where -->
+				<section id="page_where" class="page">
+					<h2 class="title">Where is code</h2>
+					<div class="content">
+						<p>私が撮影した料理の写真をご覧ください。</p>
+					</div>
+				</section>
+
+				<!-- page:who -->
+				<section id="page_who" class="page">
+					<h2 class="title">Who contribute</h2>
+					<div class="content">
+						<p>Yoidle を作っている人</p>
+						<p>Yukiya Okuda</p>
+						<ul>
+							<li><a href="http://twitter.com/alumican_net">on Twitter</a></li>
+							<li><a href="http://twitter.com/alumican_net">on GitHub</a></li>
+						</ul>
+					</div>
+				</section>
+
+				<!-- page:not_found -->
+				<section id="page_not_found" class="page">
+					<h2 class="title">Not Found</h2>
+					<div class="content">
+						<p>This page is not found.</p>
+					</div>
+				</section>
+
+			</div>
+		</div>
+
+		<!-- footer -->
+		<footer id="footer">
+			<p>(c) copyright <a href="http://alumican.net">alumican.net</a> All rights reserved.</p>
+		</footer>
+
+	</body>
+</html>
