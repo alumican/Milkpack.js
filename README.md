@@ -9,11 +9,11 @@ Milkpack.js は pushState を用いたウェブサイトを簡単に作成する
 
 サンプル
 ------
-+ 第3回 CreateJS 勉強会で使用したプレゼン資料  
-  [https://github.com/alumican/Milkpack-createjs-presentation](https://github.com/alumican/Milkpack-createjs-presentation)
-
 + 第3回 CreateJS 勉強会で使用した Milkpack.js + CreateJS の連携サンプル  
   [https://github.com/alumican/Milkpack-createjs-example](https://github.com/alumican/Milkpack-createjs-example)
+
++ 第3回 CreateJS 勉強会で使用したプレゼン資料  
+  [https://github.com/alumican/Milkpack-createjs-presentation](https://github.com/alumican/Milkpack-createjs-presentation)
 
 ドキュメント
 ------
