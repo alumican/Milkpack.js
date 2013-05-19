@@ -2,6 +2,7 @@
 /draft/*
 /node_modules/
 /tmp/
+/misc/
 *.bat
 .DS_Store
 ._*

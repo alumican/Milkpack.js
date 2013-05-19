@@ -1,11 +1,3 @@
-###
- Copyright (c) 2013 Yukiya Okuda
- http://alumican.net/
-
- Milkpack is free software distributed under the terms of the MIT license:
- http://www.opensource.org/licenses/mit-license.php
-###
-
 jpp.util.Scope.temp () ->
 
 	class Util
@@ -18,7 +10,7 @@ jpp.util.Scope.temp () ->
 		#
 		#===============================================
 
-		#フラグメントを分解する '/a/b/c' -> ['/', '/a', '/a/b', '/a/b/c']
+		# フラグメントを分解する '/a/b/c' -> ['/', '/a', '/a/b', '/a/b/c']
 		@decompseFragment: (fragment) ->
 			if fragment is null or fragment is '' or fragment is '/'
 				return { route : ['/'], direction : true }
@@ -34,12 +26,12 @@ jpp.util.Scope.temp () ->
 					++i
 				return { route : route, direction : direction }
 
-		#2つのパス間の経路を算出する
+		# 2つのパス間の経路を算出する
 		@complementFragment: (prev, next) ->
 			route = []
 			direction = []
 
-			#normalize
+			# normalize
 			prev ?= ''
 			next ?= ''
 			prev = prev.substr(1) if prev.charAt(0) == '/'
@@ -47,21 +39,22 @@ jpp.util.Scope.temp () ->
 			#console.log("prev : '#{prev}'")
 			#console.log("next : '#{next}'")
 
-			#split fragment
+			# split fragment
 			prevs = Util.decompseFragment(prev).route
 			nexts = Util.decompseFragment(next).route
 			#console.log("prevs : '#{prevs}'")
 			#console.log("nexts : '#{nexts}'")
 
-			#get branch point
+			# get branch point
 			n = Math.min(prevs.length, nexts.length)
 			branch = 0
 			while branch < n
 				break if prevs[branch] isnt nexts[branch]
 				++branch
+			--branch if branch == nexts.length # 下階層から上階層へ戻るとき
 			#console.log("branch : #{branch}")
 
-			#backword
+			# backword
 			n = branch
 			i = prevs.length - 1
 			while i >= n
@@ -70,7 +63,7 @@ jpp.util.Scope.temp () ->
 				--i
 			#console.log("route backward : '#{route}'")
 
-			#forward
+			# forward
 			n = nexts.length - 1
 			i = branch
 			while i <= n
@@ -79,14 +72,20 @@ jpp.util.Scope.temp () ->
 				++i
 			#console.log("route result : '#{route}'")
 
+			#重複しているルートを除く
+			for i in [route.length - 1..1]
+				if route[i] == route[i - 1]
+					route.splice(i, 1)
+					direction.splice(i, 1)
+
 			return { route : route, direction : direction }
 
-		#fragmentAからfragmentBに移動するときの最初の方向を取得する(-1:上方向, +1:下方向, 0:同階層)
+		# fragmentAからfragmentBに移動するときの最初の方向を取得する(-1:上方向, +1:下方向, 0:同階層)
 		@getDirection: (fragmentA, fragmentB) ->
 			#AとBが同じシーン
 			return 0 if fragmentA is fragmentB
 
-			#シーンが不一致になるまでループ
+			# シーンが不一致になるまでループ
 			a = if fragmentA is '/' then [''] else fragmentA.split('/')
 			b = if fragmentB is '/' then [''] else fragmentB.split('/')
 			aLen = a.length
@@ -105,23 +104,23 @@ jpp.util.Scope.temp () ->
 			console.log i
 			###
 
-			#AとBが同階層
+			# AとBが同階層
 			return 0 if aLen == bLen && i == aLen - 1
 
-			#AがBの親
+			# AがBの親
 			return 1 if i == aLen && i < bLen
 
-			#AがBに向かうために親階層へ戻る
+			# AがBに向かうために親階層へ戻る
 			return -1
 
-		#ログ出力
+		# ログ出力
 		@log: (m...) ->
-			console.log('[Comppass] ' + m.join(' ')) if Util.LOGGING
+			console.log('[Milkpack] ' + m.join(' ')) if Util.LOGGING
 
 		@error: (m...) ->
-			console.log('[Comppass Error] ' + m.join(' '))
+			console.log('[Milkpack Error] ' + m.join(' '))
 
-		#コピーライト出力
+		# コピーライト出力
 		@printInit: (Milkpack, kazitori, routes) ->
 			return unless Util.LOGGING
 
@@ -138,5 +137,5 @@ jpp.util.Scope.temp () ->
 			Util.log("----------------------------------------")
 
 
-	#export
+	# export
 	jpp.util.Namespace('jpp.milkpack').register('Util', Util)

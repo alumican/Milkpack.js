@@ -1,13 +1,3 @@
-
-/*
- Copyright (c) 2013 Yukiya Okuda
- http://alumican.net/
-
- Milkpack is free software distributed under the terms of the MIT license:
- http://www.opensource.org/licenses/mit-license.php
-*/
-
-
 (function() {
   var __slice = [].slice,
     __hasProp = {}.hasOwnProperty,
@@ -49,7 +39,7 @@
       };
 
       Util.complementFragment = function(prev, next) {
-        var branch, direction, i, n, nexts, prevs, route;
+        var branch, direction, i, n, nexts, prevs, route, _i, _ref;
         route = [];
         direction = [];
         if (prev == null) {
@@ -74,6 +64,9 @@
           }
           ++branch;
         }
+        if (branch === nexts.length) {
+          --branch;
+        }
         n = branch;
         i = prevs.length - 1;
         while (i >= n) {
@@ -87,6 +80,12 @@
           route.push(nexts[i]);
           direction.push(true);
           ++i;
+        }
+        for (i = _i = _ref = route.length - 1; _ref <= 1 ? _i <= 1 : _i >= 1; i = _ref <= 1 ? ++_i : --_i) {
+          if (route[i] === route[i - 1]) {
+            route.splice(i, 1);
+            direction.splice(i, 1);
+          }
         }
         return {
           route: route,
@@ -132,14 +131,14 @@
         var m;
         m = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
         if (Util.LOGGING) {
-          return console.log('[Comppass] ' + m.join(' '));
+          return console.log('[Milkpack] ' + m.join(' '));
         }
       };
 
       Util.error = function() {
         var m;
         m = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-        return console.log('[Comppass Error] ' + m.join(' '));
+        return console.log('[Milkpack Error] ' + m.join(' '));
       };
 
       Util.printInit = function(Milkpack, kazitori, routes) {
@@ -165,15 +164,6 @@
     })();
     return jpp.util.Namespace('jpp.milkpack').register('Util', Util);
   });
-
-  /*
-   Copyright (c) 2013 Yukiya Okuda
-   http://alumican.net/
-  
-   Milkpack is free software distributed under the terms of the MIT license:
-   http://www.opensource.org/licenses/mit-license.php
-  */
-
 
   jpp.util.Scope.temp(function() {
     var SceneStatus;
@@ -204,15 +194,6 @@
     return jpp.util.Namespace('jpp.milkpack').register('SceneStatus', SceneStatus);
   });
 
-  /*
-   Copyright (c) 2013 Yukiya Okuda
-   http://alumican.net/
-  
-   Milkpack is free software distributed under the terms of the MIT license:
-   http://www.opensource.org/licenses/mit-license.php
-  */
-
-
   jpp.util.Scope.temp(function() {
     var SceneEvent;
     jpp.util.Namespace('jpp.event').use();
@@ -231,15 +212,6 @@
     })(jpp.event.Event);
     return jpp.util.Namespace('jpp.milkpack').register('SceneEvent', SceneEvent);
   });
-
-  /*
-   Copyright (c) 2013 Yukiya Okuda
-   http://alumican.net/
-  
-   Milkpack is free software distributed under the terms of the MIT license:
-   http://www.opensource.org/licenses/mit-license.php
-  */
-
 
   jpp.util.Scope.temp(function() {
     var Scene;
@@ -474,15 +446,6 @@
     return jpp.util.Namespace('jpp.milkpack').register('Scene', Scene);
   });
 
-  /*
-   Copyright (c) 2013 Yukiya Okuda
-   http://alumican.net/
-  
-   Milkpack is free software distributed under the terms of the MIT license:
-   http://www.opensource.org/licenses/mit-license.php
-  */
-
-
   jpp.util.Scope.temp(function() {
     var MilkpackEvent;
     jpp.util.Namespace('jpp.event').use();
@@ -583,8 +546,11 @@
         this._kazitori.addEventListener(KazitoriEvent.EXECUTED, this._kazitoriExecutedHandler);
         jpp.milkpack.Util.LOGGING = true;
         jpp.milkpack.Util.printInit(Milkpack, this._kazitori, this.routes);
+        this._initCommand = new jpp.command.Serial();
         this.onInit();
-        this._kazitori.start();
+        new jpp.command.Serial(this._initCommand, function() {
+          return _this._kazitori.start();
+        }).execute();
       }
 
       Milkpack.prototype.goto = function(fragment) {
@@ -633,12 +599,39 @@
         return jpp.milkpack.Scene;
       };
 
+      Milkpack.prototype.addCommand = function() {
+        var commands, _ref;
+        commands = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+        if (this._initCommand !== null) {
+          return (_ref = this._initCommand).addCommand.apply(_ref, commands);
+        }
+      };
+
+      Milkpack.prototype.insertCommand = function() {
+        var commands, _ref;
+        commands = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+        if (this._initCommand !== null) {
+          return (_ref = this._initCommand).insertCommand.apply(_ref, commands);
+        }
+      };
+
+      Milkpack.prototype.getTargetFragment = function() {
+        return this._kazitori.fragment;
+      };
+
+      Milkpack.prototype.getTargetScene = function() {
+        return this._taregtScene;
+      };
+
       Milkpack.prototype._kazitoriRoutingHandler = function(rule, sceneClass, params) {
         var fragment, scene;
         fragment = this._kazitori.fragment;
         scene = this._scenes[fragment];
         if (scene === void 0) {
           this._log("create new Scene of '" + fragment + "'");
+          if (typeof sceneClass === 'string') {
+            sceneClass = eval(sceneClass);
+          }
           if (sceneClass === null) {
             this._log("request Scene of '" + fragment + "'");
             sceneClass = this.onSceneRequest(fragment, params);
@@ -668,6 +661,8 @@
       };
 
       Milkpack.prototype._kazitoriExecutedHandler = function(event) {
+        this._log("kazitoriExecutedHandler : isInGeneratingSubFragment = " + this._isInGeneratingSubFragment);
+        this._log("kazitoriExecutedHandler : next                      = " + event.next);
         if (this._isInGeneratingSubFragment) {
           return;
         }
@@ -695,8 +690,13 @@
         prevTargetFragment = this._targetFragment;
         this._targetFragment = route[route.length - 1];
         this._targetScene = this.getScene(this._targetFragment);
-        this._queue = this._queue.slice(0, this._queuePosition).concat(route);
-        this._direction = this._direction.slice(0, this._queuePosition).concat(direction);
+        if (this._queue.length > 0 && this._queue[this._queue.length - 1] === route[0]) {
+          this._queue = this._queue.slice(0, this._queuePosition).concat(route);
+          this._direction = this._direction.slice(0, this._queuePosition).concat(direction);
+        } else {
+          this._queue = this._queue.slice(0, +this._queuePosition + 1 || 9e9).concat(route);
+          this._direction = this._direction.slice(0, +this._queuePosition + 1 || 9e9).concat(direction);
+        }
         this._log("pushRoute : queue = '" + (this._queue.join('\' -> \'')) + "'");
         this._log("pushRoute : direction = '" + (this._direction.join('\' -> \'')) + "'");
         this._log("pushRoute : position = " + this._queuePosition);
@@ -745,7 +745,10 @@
         ++this._queuePosition;
         fragment = this._queue[this._queuePosition];
         this._currentScene = this.getScene(fragment);
-        if (direction >= 0) {
+        if (direction < 0 && fragment !== this._targetFragment) {
+          this._currentScene.addEventListener(jpp.milkpack.SceneEvent.CHANGE_STATUS, this._sceneChangeStatusHandler);
+          return this._currentScene.bye();
+        } else if (direction >= 0) {
           this._currentScene.addEventListener(jpp.milkpack.SceneEvent.CHANGE_STATUS, this._sceneChangeStatusHandler);
           return this._currentScene.hello();
         } else if (this._queuePosition === this._queue.length - 1) {

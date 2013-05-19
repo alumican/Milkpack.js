@@ -1,0 +1,17 @@
+{
+    "name": "Milkpack.js",
+    "version": "0.1.0",
+    "description": "Milkpack.js is hoge hoge.",
+    "author": "Yukiya Okuda (alumican.net)",
+    "license": "MIT",
+
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:alumican/Milkpack.js.git"
+    },
+
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib": "~0.4.0"
+    }
+}
