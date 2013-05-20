@@ -15,6 +15,13 @@ Milkpack.js は pushState を用いたウェブサイトを簡単に作成する
 + 第3回 CreateJS 勉強会で使用したプレゼン資料  
   [https://github.com/alumican/Milkpack-createjs-presentation](https://github.com/alumican/Milkpack-createjs-presentation)
 
+必要な外部ライブラリ
+------
+Milkpack.js は以下のライブラリに依存しています。これらのライブラリを Milkpack.js を読み込む前に読み込んでください。
+
++  [https://github.com/glassesfactory/kazitori.js](kazitori.js)
++  [https://github.com/alumican/jppcorelib.js](jppcorelib.js)
+
 ドキュメント
 ------
 現在作成中です。
