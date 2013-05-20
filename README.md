@@ -19,8 +19,8 @@ Milkpack.js は pushState を用いたウェブサイトを簡単に作成する
 ------
 Milkpack.js は以下のライブラリに依存しています。これらのライブラリを Milkpack.js を読み込む前に読み込んでください。
 
-+  [https://github.com/glassesfactory/kazitori.js](kazitori.js)
-+  [https://github.com/alumican/jppcorelib.js](jppcorelib.js)
++  [kazitori.js](https://github.com/glassesfactory/kazitori.js)
++  [jppcorelib.js](https://github.com/alumican/jppcorelib.js)
 
 ドキュメント
 ------
